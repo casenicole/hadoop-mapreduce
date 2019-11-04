@@ -1,8 +1,4 @@
 import java.io.IOException;
-import java.util.StringTokenizer;
-
-import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Mapper;
 
@@ -15,9 +11,9 @@ public class DocumentParsingMapper extends Mapper<Text, Text, Text, Article> {
 // Simply create an Article object by using the input key and value as arguments for the Article constructor. 
 // The mapper should output through the context the filepath as a key and the article object as a value.  
 
-public void map(Text key, Text value, Context context) throws IOException {
-	Article article = new Article(key, value);
-	Text filepath = value; //not sure if this syntax works...
+public void map(Text key, Text value, Context context) throws IOException, InterruptedException {
+	Article article = new Article();
+	Text filepath = value; 
 	context.write(filepath, article);
 }
 
