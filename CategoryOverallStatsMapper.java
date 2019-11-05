@@ -12,6 +12,6 @@ public class CategoryOverallStatsMapper extends Mapper<Text, Text, Text, Text> {
   @Override
   public void map(Text key, Text value, Context context)
        throws IOException, InterruptedException {
-	  // add your code here
+	  	context.write(key, value);
   }
 }
