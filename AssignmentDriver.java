@@ -165,19 +165,18 @@ public class AssignmentDriver {
   	 // ------------------------
      
      // add job1 as a dependency for job2
-     job2.addDependingJob(job1);
+     controlledJob2.addDependingJob(controlledJob1);
      // add job1 as a dependency for job3
-     job3.addDependingJob(job1);
+     controlledJob3.addDependingJob(controlledJob1);
      // add job3 as a dependency for job4
-     job4.addDependingJob(job3);
+     controlledJob4.addDependingJob(controlledJob3);
      
      // ------------------------
   	 // The Job Controller
   	 // ------------------------
      
      // create a job controller object
-     JobControl jc = new JobControl();
-     // add ControlledJob1 to the controller
+     JobControl jc = new JobControl("");
      jc.addJob(controlledJob1);
 	 // add ControlledJob2 to the controller
      jc.addJob(controlledJob2);
