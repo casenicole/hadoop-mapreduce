@@ -79,54 +79,57 @@ public class AssignmentDriver {
      
     
      
-     // ------------------------
-  	 //  Job 3
-  	 // ------------------------
-  	 // Create job3 Object
-	 Job job3 = new Job();
-  	 // Set JAR class: AssignmentDriver
-  	 job3.setJarByClass(AssignmentDriver.class);
-  	 // Set Mapper class for Job1: CategoryStatsMapper
-	 job3.setMapperClass(CategoryStatsMapper.class); 
-  	 // Set Reducer class for Job1: CategoryStatsReducer
-  	 job3.setReducerClass(CategoryStatsReducer.class); 
-  	 // Set Output Key type: Text
-	 job3.setOutputKeyClass(Text.class);
-  	 // Set Output Value type: Text
-       	 job3.setOutputValueClass(Text.class);	
-     // Set Mapper Output Key type: Text  (this is needed here because the key and value types of Mapper are different from reducer). Use the Job2.setMapKeyClass(...)
-     // Set Mapper Output Key type: IntWritable  (this is needed here because the key and value types of Mapper are different from reducer).  Use the Job2.setMapValueClass(...)
-  	  
-  	 // Set Inputformat class: TextInputFormat
-  	 
-  	 // Set Input Path: the output path of Job 1
-  	 // Set Output path
+   	// ------------------------
+	//  Job 3
+	// ------------------------
+	// Create job3 Object
+	Job job3 = new Job();
+	// Set JAR class: AssignmentDriver
+	job3.setJarByClass(AssignmentDriver.class);
+	// Set Mapper class for Job1: CategoryStatsMapper
+	job3.setMapperClass(CategoryStatsMapper.class); 
+	// Set Reducer class for Job1: CategoryStatsReducer
+	job3.setReducerClass(CategoryStatsReducer.class); 
+	// Set Output Key type: Text
+	job3.setOutputKeyClass(Text.class);
+	// Set Output Value type: Text
+	job3.setOutputValueClass(Text.class);	
+	// Set Mapper Output Key type: Text  (this is needed here because the key and value types of Mapper are different from reducer). Use the Job2.setMapKeyClass(...)
+	job3.setMapOutputKeyClass(Text.class);
+	// Set Mapper Output Key type: IntWritable  (this is needed here because the key and value types of Mapper are different from reducer).  Use the Job2.setMapValueClass(...)
+	job3.setMapOutputKeyClass(IntWritable.class);
+	// Set Inputformat class: TextInputFormat
+	job3.setInputFormatClass(TextInputFormat.class);
+	// Set Input Path: the output path of Job 1
+	FileInputFormat.setInputPaths(job1, new Path(args[0]));
+	// Set Output path
+	FileOutputFormat.setOutputPath(job3, new Path(args[1]));
+	// Don't submit the job!
+	     
+	     
+	// ------------------------
+	//  Job 4
+	// ------------------------
+	// Create job4 Object
+	Job job4 = new Job(); 
+	// Set JAR class: AssignmentDriver
+	job4.setJarByClass(AssignmentDriver.class);
+	// Set Mapper class for Job1: CategoryOverallStatsMapper
+	job4.setMapperClass(CategoryOverallStatsMapper.class);
+	// Set Reducer class for Job1: CategoryOverallStatsReducer
+	job4.setReducerClass(CategoryOverallStatsReducer.class); 
+	// Set Output Key type: Text
+	job4.setOutputKeyClass(Text.class);
+	// Set Output Value type: Text
+	job4.setOutputValueClass(Text.class);
+	// Set Inputformat class: KeyValueTextInputFormat
+	job4.setInputFormatClass(KeyValueTextInputFormat.class);
+	// Set Input Path: the output path of Job 3
+	FileInputFormat.setInputPaths(job3, new Path(args[0]));
+	// Set Output path
+	FileOutputFormat.setOutputPath(job4, new Path(args[1]));  
+	// Don't submit the job!
        
-     // Don't submit the job!
-     
- 
-     
-     // ------------------------
-  	 //  Job 4
-  	 // ------------------------
-  	 // Create job4 Object
-	 Job job4 = new Job(); 
-  	 // Set JAR class: AssignmentDriver
-  	 job4.setJarByClass(AssignmentDriver.class);
-  	 // Set Mapper class for Job1: CategoryOverallStatsMapper
-	 job4.setMapperClass(CategoryOverallStatsMapper.class);
-  	 // Set Reducer class for Job1: CategoryOverallStatsReducer
-  	 job4.setReducerClass(CategoryOverallStatsReducer.class); 
-  	 // Set Output Key type: Text
-	 job4.setOutputKeyClass(Text.class);
-  	 // Set Output Value type: Text
-      	 job4.setOutputValueClass(Text.class);
-  	 // Set Inputformat class: KeyValueTextInputFormat
-  	 job4.setInputFormatClass(KeyValueTextInputFormat.class);
-  	 // Set Input Path: the output path of Job 3
-  	 // Set Output path
-       
-     // Don't submit the job!
      
 
      
