@@ -16,12 +16,11 @@ public class OverallStatsMapper extends Mapper<LongWritable, Text, LongWritable,
 //Write to the context object the smae input key and the length (character count) of the text of the body column as the value.
 	
 	
-	public void map(Iterable<LongWritable> lines, Iterable<Text> contents, Context context) throws IOException, InterruptedException{
-		while(lines.iterator().hasNext()){
-		String[] line = lines.iterator().next().toString().split("\t");	
-		LongWritable key = new LongWritable(Long.parseLong(line[4]));
+	public void map(LongWritable key, Iterable<Text> values, Context context) throws IOException, InterruptedException{
+		while(values.iterator().hasNext()){
+		String[] line = values.iterator().next().toString().split("\t");	
 		IntWritable value = new IntWritable(line[4].length());
-	
 		context.write(key, value);
 		}
-	
+	}
+}
