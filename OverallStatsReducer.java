@@ -22,9 +22,14 @@ public void reduce(LongWritable key, Iterable<IntWritable> values, Context conte
 		doc_count++;
 		body_word_count += values.iterator().next().get();
 	}
+	
 	average_body_word_count = body_word_count / doc_count;
 	
+	}
+
+public void cleanup(Context context) throws IOException, InterruptedException{
 	context.write(new Text("Count"), new DoubleWritable(doc_count));
 	context.write(new Text("Average"), new DoubleWritable(average_body_word_count));
 }
 }
+
