@@ -1,5 +1,3 @@
-import java.io.File;
-
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
@@ -14,9 +12,14 @@ import org.apache.hadoop.mapreduce.lib.input.KeyValueTextInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.jobcontrol.ControlledJob;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
-import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 
 public class AssignmentDriver {
+	
+	private static Path output = new Path("Output");
+	private static Path output2 = new Path("Output2");
+	private static Path output3 = new Path("Output3");
+	private static Path output4 = new Path("Output4");
+	
   public static void main(String[] args) throws Exception {
   
 	// ------------------------
@@ -40,12 +43,13 @@ public class AssignmentDriver {
 		 // Since the dataset contains multiple folders, make sure to read in recursive mode:  WholeFileInputFormat.setInputDirRecursive(job1, true);
 		  WholeFileInputFormat.setInputDirRecursive(job1, true);
 		 // Set Input Path "20-newsgroups" for local testing or args[0] when you export the jar
-		  File[] files = new File("20-newsgroups").listFiles();
-		  FileInputFormat.setInputPaths(job1, new Path(args[0]));
+		  FileInputFormat.setInputPaths(job1, new Path("20-newsgroups"));
 		  
 		 // Set Output path
-		  FileOutputFormat.setOutputPath(job1, new Path(args[1]));
+		  FileOutputFormat.setOutputPath(job1, output);
 		  // Don't submit the job!
+		  boolean success1 = job1.waitForCompletion(true);
+		  if(!success1) System.exit(1);
 		  
 
 	     
@@ -54,7 +58,7 @@ public class AssignmentDriver {
 		 // ------------------------
 		 // Create job2 Object
 		  Job job2 = Job.getInstance();
-		  job1.setJobName("job2");
+		  job2.setJobName("job2");
 		 // Set JAR class: AssignmentDriver
 		  job2.setJarByClass(AssignmentDriver.class);
 		 // Set Mapper class for Job1: OverallStatsMapper
@@ -68,24 +72,26 @@ public class AssignmentDriver {
 		  // Set Mapper Output Key type: LongWritable  (this is needed here because the key and value types of Mapper are different from reducer). Use the Job2.setMapKeyClass(...)
 		  job2.setMapOutputKeyClass(LongWritable.class);
 		  // Set Mapper Output Key type: IntWritable  (this is needed here because the key and value types of Mapper are different from reducer).  Use the Job2.setMapValueClass(...)
-		  job2.setMapOutputKeyClass(IntWritable.class);
+		  job2.setMapOutputValueClass(IntWritable.class);
 		 
 		 // Set Inputformat class: TextInputFormat
 		  job2.setInputFormatClass(TextInputFormat.class);
 		 
 		 // Set Input Path: the output path of Job 1
-	     	 FileInputFormat.setInputPaths(job1, new Path(args[0]));
+	     FileInputFormat.setInputPaths(job2, output);
 		 // Set Output path
-	     	 FileOutputFormat.setOutputPath(job2, new Path(args[1]));
+	     FileOutputFormat.setOutputPath(job2, output2);
 	     	 // Don't submit the job!
-	     
+	     	boolean success2 = job2.waitForCompletion(true);
+			if(!success2) System.exit(1);
 	    
 	     
 	     // ------------------------
 	  	 //  Job 3
 	  	 // ------------------------
 	  	 // Create job3 Object
-		 Job job3 = new Job();
+		 Job job3 = Job.getInstance();
+		 job3.setJobName("job3");
 	  	 // Set JAR class: AssignmentDriver
 	  	 job3.setJarByClass(AssignmentDriver.class);
 	  	 // Set Mapper class for Job1: CategoryStatsMapper
@@ -99,22 +105,24 @@ public class AssignmentDriver {
 	     // Set Mapper Output Key type: Text  (this is needed here because the key and value types of Mapper are different from reducer). Use the Job2.setMapKeyClass(...)
 	     job3.setMapOutputKeyClass(Text.class);
 	     // Set Mapper Output Key type: IntWritable  (this is needed here because the key and value types of Mapper are different from reducer).  Use the Job2.setMapValueClass(...)
-	  	 job3.setMapOutputKeyClass(IntWritable.class);
+	  	 job3.setMapOutputValueClass(IntWritable.class);
 	  	 // Set Inputformat class: TextInputFormat
 	  	 job3.setInputFormatClass(TextInputFormat.class);
 	  	 // Set Input Path: the output path of Job 1
-	  	 FileInputFormat.setInputPaths(job1, new Path(args[0]));
+	  	 FileInputFormat.setInputPaths(job3, output);
 	  	 // Set Output path
-	  	 FileOutputFormat.setOutputPath(job3, new Path(args[1]));
+	  	 FileOutputFormat.setOutputPath(job3, output3);
 	     // Don't submit the job!
-	     
+	  	boolean success3 = job3.waitForCompletion(true);
+		if(!success3) System.exit(1);
 	 
 	     
 	     // ------------------------
 	  	 //  Job 4
 	  	 // ------------------------
 	  	 // Create job4 Object
-		 Job job4 = new Job(); 
+		 Job job4 = Job.getInstance();
+		 job4.setJobName("job4");
 	  	 // Set JAR class: AssignmentDriver
 	  	 job4.setJarByClass(AssignmentDriver.class);
 	  	 // Set Mapper class for Job1: CategoryOverallStatsMapper
@@ -128,11 +136,12 @@ public class AssignmentDriver {
 	  	 // Set Inputformat class: KeyValueTextInputFormat
 	  	 job4.setInputFormatClass(KeyValueTextInputFormat.class);
 	  	 // Set Input Path: the output path of Job 3
-	  	 FileInputFormat.setInputPaths(job3, new Path(args[0]));
+	  	 FileInputFormat.setInputPaths(job4, output3);
 	  	 // Set Output path
-	  	FileOutputFormat.setOutputPath(job4, new Path(args[1]));  
+	  	 FileOutputFormat.setOutputPath(job4, output4);  
 	     // Don't submit the job!
-     
+	  	boolean success4 = job4.waitForCompletion(true);
+		if(!success4) System.exit(1);
 
      
      // ------------------------
@@ -186,5 +195,6 @@ public class AssignmentDriver {
      jc.addJob(controlledJob4);
      // Run the controller
      jc.run();
+     
   }
 }
