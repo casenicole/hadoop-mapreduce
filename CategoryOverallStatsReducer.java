@@ -9,8 +9,8 @@ import org.apache.hadoop.mapreduce.Reducer;
 public class CategoryOverallStatsReducer extends Reducer<Text, Text, Text, Text>{
 //This Reducer should follow the example we learned in class to compute the stats as described in the instructions document for this part.
 
-	int maxWordCount = Integer.MAX_VALUE;
-	int minWordCount = Integer.MIN_VALUE;
+	int maxWordCount = 0;
+	int minWordCount = 100000;
 	int average_docs_per_category = 0;
 	private static String maxCategory = "Dummy Value";
 	private static String minCategory = "Dummy Value";
