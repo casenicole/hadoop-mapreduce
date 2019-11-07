@@ -15,11 +15,6 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 
 public class AssignmentDriver {
 	
-	private static Path output = new Path("Output");
-	private static Path output2 = new Path("Output2");
-	private static Path output3 = new Path("Output3");
-	private static Path output4 = new Path("Output4");
-	
   public static void main(String[] args) throws Exception {
   
 	// ------------------------
@@ -43,10 +38,9 @@ public class AssignmentDriver {
 		 // Since the dataset contains multiple folders, make sure to read in recursive mode:  WholeFileInputFormat.setInputDirRecursive(job1, true);
 		  WholeFileInputFormat.setInputDirRecursive(job1, true);
 		 // Set Input Path "20-newsgroups" for local testing or args[0] when you export the jar
-		  FileInputFormat.setInputPaths(job1, new Path("20-newsgroups"));
-		  
+		  FileInputFormat.setInputPaths(job1, new Path(args [0]));
 		 // Set Output path
-		  FileOutputFormat.setOutputPath(job1, output);
+		  FileOutputFormat.setOutputPath(job1, new Path("output"));
 		  // Don't submit the job!
 		  boolean success1 = job1.waitForCompletion(true);
 		  if(!success1) System.exit(1);
@@ -78,10 +72,10 @@ public class AssignmentDriver {
 		  job2.setInputFormatClass(TextInputFormat.class);
 		 
 		 // Set Input Path: the output path of Job 1
-	     FileInputFormat.setInputPaths(job2, output);
+		  FileInputFormat.setInputPaths(job2, new Path("output"));
 		 // Set Output path
-	     FileOutputFormat.setOutputPath(job2, output2);
-	     	 // Don't submit the job!
+		  FileOutputFormat.setOutputPath(job2, new Path("Output2"));
+	     // Don't submit the job!
 	     	boolean success2 = job2.waitForCompletion(true);
 			if(!success2) System.exit(1);
 	    
@@ -109,9 +103,9 @@ public class AssignmentDriver {
 	  	 // Set Inputformat class: TextInputFormat
 	  	 job3.setInputFormatClass(TextInputFormat.class);
 	  	 // Set Input Path: the output path of Job 1
-	  	 FileInputFormat.setInputPaths(job3, output);
-	  	 // Set Output path
-	  	 FileOutputFormat.setOutputPath(job3, output3);
+	  	FileInputFormat.setInputPaths(job1, new Path("output"));
+		 // Set Output path
+		  FileOutputFormat.setOutputPath(job3, new Path("Output3"));
 	     // Don't submit the job!
 	  	boolean success3 = job3.waitForCompletion(true);
 		if(!success3) System.exit(1);
@@ -136,9 +130,9 @@ public class AssignmentDriver {
 	  	 // Set Inputformat class: KeyValueTextInputFormat
 	  	 job4.setInputFormatClass(KeyValueTextInputFormat.class);
 	  	 // Set Input Path: the output path of Job 3
-	  	 FileInputFormat.setInputPaths(job4, output3);
-	  	 // Set Output path
-	  	 FileOutputFormat.setOutputPath(job4, output4);  
+	  	FileInputFormat.setInputPaths(job3, new Path("Output3"));
+		 // Set Output path
+		  FileOutputFormat.setOutputPath(job4, new Path("Output4"));  
 	     // Don't submit the job!
 	  	boolean success4 = job4.waitForCompletion(true);
 		if(!success4) System.exit(1);
